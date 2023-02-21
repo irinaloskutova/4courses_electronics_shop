@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "1"
+version = "2"
+description = "3"
+authors = ["irinaloskutova <l.irinka@mail.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
