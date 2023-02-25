@@ -13,7 +13,8 @@ class Item:
         return self.price * self.quantity
 
     def apply_discount(self):
-        return self.price * self.discount_coefficient
+        self.price = self.price * Item.discount_coefficient
+        return self.price
 
 
 item1 = Item("Смартфон", 10000, 20)
