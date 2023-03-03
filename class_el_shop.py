@@ -17,7 +17,7 @@ class Item:
     @classmethod
     def name_length(cls, name):  #не могу добиться чтоб этот метод работал
         if len(str(name)) > 10:
-            raise Exception("Длина наименования товара превышает 10 символов")
+            return 'Exception("Длина наименования товара превышает 10 символов")'
         else:
             cls.__name = name
 
@@ -55,26 +55,32 @@ class Item:
         is_int = float(digit).is_integer()
         return is_int
 
+    def __repr__(self) -> str:
+        return f"Имя: {self.name}, цена: {self.price}"
+
+
+    def __str__(self) -> str:
+        return f"{self.name}"
 
 item = Item('Телефон', 10000, 5)
 item.name = 'Смартфон'
-print(item.name)
+print(item)
 # Смартфон
 
-item.name = 'СуперСмартфон'
-print(item.name)
+# item.name = 'СуперСмартфон'
+# print(item.name)
 # Exception: Длина наименования товара превышает 10 символов.
 
 
-Item.instantiate_from_csv()  # создание объектов из данных файла
-print(len(Item.all))  # в файле 5 записей с данными по товарам
+# Item.instantiate_from_csv()  # создание объектов из данных файла
+# print(len(Item.all))  # в файле 5 записей с данными по товарам
 # 5
-item1 = Item.all[0]
-print(item1["name"])  #По-другому не знаю как вывести наименование "Смартфон", подскажите как?????#
+# item1 = Item.all[0]
+# print(item1["name"])  #По-другому не знаю как вывести наименование "Смартфон", подскажите как?????#
 # Смартфон
-print(Item.is_whole(5))
-print(Item.is_whole(5.0))
-print(Item.is_whole(5.5))
+# print(Item.is_whole(5))
+# print(Item.is_whole(5.0))
+# print(Item.is_whole(5.5))
 # True
 # True
 # False
