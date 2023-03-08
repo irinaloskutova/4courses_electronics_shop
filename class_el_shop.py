@@ -1,25 +1,15 @@
 import csv
 
-
 class Item:
     discount_coefficient = 0.85
     all = []
 
     def __init__(self, name="", price=0.0, quantity=0):
-        self.name_length(name)
-
         self.__name = name
         self.price = price
         self.quantity = quantity
 
         self.all.append(self)
-
-    @classmethod
-    def name_length(cls, name):  #не могу добиться чтоб этот метод работал
-        if len(str(name)) > 10:
-            return 'Exception("Длина наименования товара превышает 10 символов")'
-        else:
-            cls.__name = name
 
     @property
     def name(self):
@@ -27,8 +17,10 @@ class Item:
 
     @name.setter
     def name(self, name):
-        self.name_length(self.name)
-        self.__name = name
+        if len(name) <= 10:
+            self.__name = name
+        else:
+            raise (Exception("Длина наименования товара превышает 10 символов"))
 
     def calculate_total_price(self):
         """Подсчитывает стоимость всего конкретного товара и возвращает его"""
@@ -63,7 +55,8 @@ class Item:
         return f"{self.name}"
 
 item = Item('Телефон', 10000, 5)
-item.name = 'Смартфон'
+
+# item.name = 'Смартфон'
 print(item)
 # Смартфон
 
@@ -71,9 +64,8 @@ print(item)
 # print(item.name)
 # Exception: Длина наименования товара превышает 10 символов.
 
-
-# Item.instantiate_from_csv()  # создание объектов из данных файла
-# print(len(Item.all))  # в файле 5 записей с данными по товарам
+Item.instantiate_from_csv()  # создание объектов из данных файла
+print(len(Item.all))  # в файле 5 записей с данными по товарам
 # 5
 # item1 = Item.all[0]
 # print(item1["name"])  #По-другому не знаю как вывести наименование "Смартфон", подскажите как?????#
