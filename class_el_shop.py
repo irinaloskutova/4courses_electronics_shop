@@ -50,29 +50,27 @@ class Item:
     def __repr__(self) -> str:
         return f"Имя: {self.name}, цена: {self.price}"
 
-
     def __str__(self) -> str:
         return f"{self.name}"
 
-item = Item('Телефон', 10000, 5)
+class Phone(Item):
+    def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
+        super().__init__(name, price, quantity)
+        if number_of_sim > 0:
+            self.number_of_sim = number_of_sim
+        else:
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
 
-# item.name = 'Смартфон'
-print(item)
-# Смартфон
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise (Exception("C объектами других классов запрещено сложение."))
 
-# item.name = 'СуперСмартфон'
-# print(item.name)
-# Exception: Длина наименования товара превышает 10 символов.
-
-Item.instantiate_from_csv()  # создание объектов из данных файла
-print(len(Item.all))  # в файле 5 записей с данными по товарам
-# 5
-# item1 = Item.all[0]
-# print(item1["name"])  #По-другому не знаю как вывести наименование "Смартфон", подскажите как?????#
-# Смартфон
-# print(Item.is_whole(5))
-# print(Item.is_whole(5.0))
-# print(Item.is_whole(5.5))
-# True
-# True
-# False
+# laptop = Item("Samsung", 160_000, 9)
+phone = Phone("iPhone 14", 120_000, 5, 2)
+#
+# print(phone)
+# print(phone + laptop)
+phone.number_of_sim = -5
+print(phone.number_of_sim)
