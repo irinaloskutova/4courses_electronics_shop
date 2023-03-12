@@ -56,10 +56,21 @@ class Item:
 class Phone(Item):
     def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
         super().__init__(name, price, quantity)
-        if number_of_sim > 0:
-            self.number_of_sim = number_of_sim
-        else:
-            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
+        self.number_of_sim = number_of_sim
+
+    # @property
+    # def number_of_sim(self):
+    #     return self.number_of_sim
+    #
+    # @number_of_sim.setter
+    # def number_of_sim(self, number_of_sim):
+    #     if self.number_of_sim <= 0:
+    #         raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
+    #     else:
+    #         self.number_of_sim = number_of_sim
+
+    def __repr__(self) -> str:
+        return f"({self.name}, {self.price}, {self.quantity}, {self.number_of_sim})"
 
     def __add__(self, other):
         if isinstance(other, Item):
@@ -67,10 +78,10 @@ class Phone(Item):
         else:
             raise (Exception("C объектами других классов запрещено сложение."))
 
-# laptop = Item("Samsung", 160_000, 9)
+laptop = Item("Samsung", 160_000, 9)
 phone = Phone("iPhone 14", 120_000, 5, 2)
 #
 # print(phone)
-# print(phone + laptop)
-phone.number_of_sim = -5
-print(phone.number_of_sim)
+print(repr(phone))
+# phone.number_of_sim = 3
+# print(phone.number_of_sim)
