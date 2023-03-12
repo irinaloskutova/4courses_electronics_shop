@@ -78,10 +78,42 @@ class Phone(Item):
         else:
             raise (Exception("C объектами других классов запрещено сложение."))
 
-laptop = Item("Samsung", 160_000, 9)
-phone = Phone("iPhone 14", 120_000, 5, 2)
-#
-# print(phone)
-print(repr(phone))
-# phone.number_of_sim = 3
-# print(phone.number_of_sim)
+class Mixin():
+    def __init__(self, *args, **kwargs):
+        language = "EN"
+        super().__init__(*args, **kwargs)
+        self.__language = language
+
+    @property
+    def language(self):
+        return self.__language
+
+    def change_lang(self):
+        if self.__language == "EN":
+            self.__language = "RU"
+            return self.__language
+        elif self.__language == "RU":
+            self.__language = "EN"
+            return self.__language
+
+class KeyBoard(Mixin, Item):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+
+
+# kb = KeyBoard('Dark Project KD87A', 9600, 5)
+# print(kb)
+# Dark Project KD87A
+
+# print(kb.language)
+# EN
+
+# kb.change_lang()
+# print(kb.language)
+# RU
+
+# kb.language = 'CH'
+# print(kb.language)
+# AttributeError: property 'language' of 'KeyBoard' object has no setter
+

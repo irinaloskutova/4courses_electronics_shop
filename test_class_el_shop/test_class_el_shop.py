@@ -1,7 +1,7 @@
 import pytest
 
 
-from class_el_shop import Item, Phone
+from class_el_shop import Item, Phone, KeyBoard
 
 def test_calculate_total_price(item1):
     assert item1.calculate_total_price() == 100
@@ -27,3 +27,9 @@ def test_init(item1):
 
 def test__add__(item2, item1):
     assert item2.__add__(item1) == 20
+
+def test_change_lang(item3):
+    assert item3.change_lang() == "RU"
+    assert item3.change_lang() == "EN"
+
+
