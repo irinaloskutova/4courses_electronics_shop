@@ -56,21 +56,26 @@ class Item:
 class Phone(Item):
     def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
         super().__init__(name, price, quantity)
-        self.number_of_sim = number_of_sim
+        if number_of_sim > 0 and isinstance(number_of_sim, int):
+            self.__number_of_sim = number_of_sim
+        else:
+            raise AttributeError("Количество физических SIM-карт должно быть целым числом больше нуля.")
 
-    # @property
-    # def number_of_sim(self):
-    #     return self.number_of_sim
-    #
-    # @number_of_sim.setter
-    # def number_of_sim(self, number_of_sim):
-    #     if self.number_of_sim <= 0:
-    #         raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
-    #     else:
-    #         self.number_of_sim = number_of_sim
+        # self.__number_of_sim = number_of_sim
+
+    @property
+    def number_of_sim(self):
+        return self.__number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, number_of_sim):
+        if number_of_sim > 0:
+            self.__number_of_sim = number_of_sim
+        else:
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
 
     def __repr__(self) -> str:
-        return f"({self.name}, {self.price}, {self.quantity}, {self.number_of_sim})"
+        return f"({self.name}, {self.price}, {self.quantity}, {self.__number_of_sim})"
 
     def __add__(self, other):
         if isinstance(other, Item):
@@ -100,20 +105,22 @@ class KeyBoard(Mixin, Item):
     def __init__(self, *args):
         super().__init__(*args)
 
-
-
-# kb = KeyBoard('Dark Project KD87A', 9600, 5)
-# print(kb)
+# phone1 = Phone("Iphone", 100000, 10, 1)
+# print(phone1.number_of_sim )
+# phone1.number_of_sim = 5
+# print(phone1.number_of_sim)
+kb = KeyBoard('Dark Project KD87A', 9600, 5)
+print(kb)
 # Dark Project KD87A
 
-# print(kb.language)
+print(kb.language)
 # EN
 
-# kb.change_lang()
-# print(kb.language)
+kb.change_lang()
+print(kb.language)
 # RU
 
-# kb.language = 'CH'
-# print(kb.language)
+kb.language = 'CH'
+print(kb.language)
 # AttributeError: property 'language' of 'KeyBoard' object has no setter
 
