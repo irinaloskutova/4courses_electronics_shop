@@ -50,30 +50,79 @@ class Item:
     def __repr__(self) -> str:
         return f"Имя: {self.name}, цена: {self.price}"
 
-
     def __str__(self) -> str:
         return f"{self.name}"
 
-item = Item('Телефон', 10000, 5)
 
-# item.name = 'Смартфон'
-print(item)
-# Смартфон
+class Phone(Item):
+    def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
+        super().__init__(name, price, quantity)
+        if number_of_sim > 0 and isinstance(number_of_sim, int):
+            self.__number_of_sim = number_of_sim
+        else:
+            raise AttributeError("Количество физических SIM-карт должно быть целым числом больше нуля.")
 
-# item.name = 'СуперСмартфон'
-# print(item.name)
-# Exception: Длина наименования товара превышает 10 символов.
+        # self.__number_of_sim = number_of_sim
 
-Item.instantiate_from_csv()  # создание объектов из данных файла
-print(len(Item.all))  # в файле 5 записей с данными по товарам
-# 5
-# item1 = Item.all[0]
-# print(item1["name"])  #По-другому не знаю как вывести наименование "Смартфон", подскажите как?????#
-# Смартфон
-# print(Item.is_whole(5))
-# print(Item.is_whole(5.0))
-# print(Item.is_whole(5.5))
-# True
-# True
-# False
+    @property
+    def number_of_sim(self):
+        return self.__number_of_sim
+
+    @number_of_sim.setter
+    def number_of_sim(self, number_of_sim):
+        if number_of_sim > 0:
+            self.__number_of_sim = number_of_sim
+        else:
+            raise ValueError("Количество физических SIM-карт должно быть целым числом больше нуля.")
+
+    def __repr__(self) -> str:
+        return f"({self.name}, {self.price}, {self.quantity}, {self.__number_of_sim})"
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+            return self.quantity + other.quantity
+        else:
+            raise (Exception("C объектами других классов запрещено сложение."))
+
+class Mixin():
+    def __init__(self, *args, **kwargs):
+        language = "EN"
+        super().__init__(*args, **kwargs)
+        self.__language = language
+
+    @property
+    def language(self):
+        return self.__language
+
+    def change_lang(self):
+        if self.__language == "EN":
+            self.__language = "RU"
+            return self.__language
+        elif self.__language == "RU":
+            self.__language = "EN"
+            return self.__language
+
+class KeyBoard(Mixin, Item):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+# phone1 = Phone("Iphone", 100000, 10, 1)
+# print(phone1.number_of_sim )
+# phone1.number_of_sim = 5
+# print(phone1.number_of_sim)
+kb = KeyBoard('Dark Project KD87A', 9600, 5)
+print(kb)
+# Dark Project KD87A
+
+print(kb.language)
+# EN
+
+kb.change_lang()
+print(kb.language)
+# RU
+
+kb.language = 'CH'
+print(kb.language)
+# AttributeError: property 'language' of 'KeyBoard' object has no setter
+
 
