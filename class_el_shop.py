@@ -53,6 +53,7 @@ class Item:
     def __str__(self) -> str:
         return f"{self.name}"
 
+
 class Phone(Item):
     def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
         super().__init__(name, price, quantity)
@@ -123,4 +124,5 @@ print(kb.language)
 kb.language = 'CH'
 print(kb.language)
 # AttributeError: property 'language' of 'KeyBoard' object has no setter
+
 
