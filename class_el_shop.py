@@ -1,5 +1,6 @@
 import csv
 
+
 class Item:
     discount_coefficient = 0.85
     all = []
@@ -34,12 +35,18 @@ class Item:
     @classmethod
     def instantiate_from_csv(cls):
         cls.all = []
-        """Загружает данные из csv файла и преобразует их в список словарей"""
-        with open('items.csv', 'r', encoding='UTF-8', newline='') as f:
-            reader = csv.DictReader(f)
-            for line in reader:
-                cls.all.append(line)
-            return cls.all
+        """Загружает данные из csv файла и преобразует их"""
+        try:
+            with open('items.csv', 'r', encoding='UTF-8', newline='') as f:
+                reader = csv.DictReader(f)
+                for line in reader:
+                    if list(line.keys()) != ['name', 'price', 'quantity']:
+                        raise InstantiateCSVError
+                    else:
+                        cls.all.append(list(line.items()))
+                return cls.all
+        except FileNotFoundError:
+            print('Отсутствует файл items.csv')
 
     @staticmethod
     def is_whole(digit):
@@ -52,6 +59,7 @@ class Item:
 
     def __str__(self) -> str:
         return f"{self.name}"
+
 
 class Phone(Item):
     def __init__(self, name="", price=0.0, quantity=0, number_of_sim=0):
@@ -83,6 +91,7 @@ class Phone(Item):
         else:
             raise (Exception("C объектами других классов запрещено сложение."))
 
+
 class Mixin():
     def __init__(self, *args, **kwargs):
         language = "EN"
@@ -101,26 +110,39 @@ class Mixin():
             self.__language = "EN"
             return self.__language
 
+
 class KeyBoard(Mixin, Item):
     def __init__(self, *args):
         super().__init__(*args)
 
-# phone1 = Phone("Iphone", 100000, 10, 1)
-# print(phone1.number_of_sim )
-# phone1.number_of_sim = 5
-# print(phone1.number_of_sim)
-kb = KeyBoard('Dark Project KD87A', 9600, 5)
-print(kb)
-# Dark Project KD87A
 
-print(kb.language)
-# EN
+class InstantiateCSVError(Exception):
+    def __init__(self, *args):
+        print('InstantiateCSVError: Файл items.csv поврежден')
+    def __str__(self):
+        return 'InstantiateCSVError: Файл items.csv поврежден'
 
-kb.change_lang()
-print(kb.language)
-# RU
 
-kb.language = 'CH'
-print(kb.language)
-# AttributeError: property 'language' of 'KeyBoard' object has no setter
+
+if __name__ == '__main__':
+    item = Item('Samsung', 15000, 1)
+    print(item.instantiate_from_csv())
+    # phone1 = Phone("Iphone", 100000, 10, 1)
+    # print(phone1.number_of_sim )
+    # phone1.number_of_sim = 5
+    # print(phone1.number_of_sim)
+    # kb = KeyBoard('Dark Project KD87A', 9600, 5)
+    # print(kb)
+    # # Dark Project KD87A
+    #
+    # print(kb.language)
+    # # EN
+    #
+    # kb.change_lang()
+    # print(kb.language)
+    # # RU
+    #
+    # kb.language = 'CH'
+    # print(kb.language)
+    # AttributeError: property 'language' of 'KeyBoard' object has no setter
 
